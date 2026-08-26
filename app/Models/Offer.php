@@ -34,4 +34,16 @@ class Offer extends Model
     {
         return $this->hasMany(OfferItem::class);
     }
+
+    public function calculateTotals(): void
+    {
+        $subtotal = $this->offerItems()->sum('total');
+        $taxAmount = $subtotal * ($this->tax_rate / 100);
+
+        $this->update([
+            'subtotal' => $subtotal,
+            'tax_amount' => $taxAmount,
+            'total' => $subtotal + $taxAmount,
+        ]);
+    }
 }
