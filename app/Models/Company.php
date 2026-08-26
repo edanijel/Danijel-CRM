@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
-    
     protected $fillable = [
         'name', 'oib', 'email', 'phone', 'website', 'address', 'city', 'postal_code', 'status',
     ];
@@ -20,5 +19,4 @@ class Company extends Model
     {
         return $this->hasMany(Deal::class);
     }
-
 }
