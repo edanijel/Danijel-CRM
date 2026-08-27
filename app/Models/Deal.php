@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\DealStatus;
+use App\Enums\Currency;
 
 class Deal extends Model
 {
@@ -23,5 +25,13 @@ class Deal extends Model
     public function contact()
     {
         return $this->belongsTo(Contact::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'status' => DealStatus::class,
+            'currency' => Currency::class
+        ];
     }
 }

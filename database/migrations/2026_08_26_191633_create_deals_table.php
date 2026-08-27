@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->decimal('value', 10, 2);
-            $table->char('currency', 3); // this should be a new table with list of currencies
+            $table->char('currency', 3);
             $table->unsignedTinyInteger('probability')->nullable(); // 0-100%
             $table->date('expected_close_date')->nullable(); 
             $table->string('status')->default('new');

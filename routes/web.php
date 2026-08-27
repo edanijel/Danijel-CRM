@@ -37,4 +37,16 @@ Volt::route('contacts/{contact}/edit', 'pages.contacts.form')
     ->middleware(['auth'])
     ->name('contacts.edit');
 
+Volt::route('deals', 'pages.deals.index')
+    ->middleware(['auth'])
+    ->name('deals.index');
+
+Volt::route('deals/create', 'pages.deals.form')
+    ->middleware(['auth'])
+    ->name('deals.create');
+
+Volt::route('deals/{deal}/edit', 'pages.deals.form')
+    ->middleware(['auth'])
+    ->name('deals.edit');
+
 require __DIR__.'/auth.php';

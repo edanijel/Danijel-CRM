@@ -1,0 +1,85 @@
+<?php
+
+use App\Models\Deal;
+use Livewire\Volt\Component;
+use Livewire\Attributes\Layout;
+
+new #[Layout('layouts.app')] class extends Component
+{
+    public function with(): array
+    {
+        return [
+            'deals' => Deal::latest()->get(),
+        ];
+    }
+
+    public function delete(Deal $deal): void
+    {
+        $deal->delete();
+    }
+};
+?>
+
+<div>
+    <x-slot name="header">
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Deals') }}</h2>
+            <a href="{{ route('deals.create') }}" wire:navigate class="px-4 py-2 bg-gray-800 text-white rounded-md text-sm">
+                {{ __('New Deal') }}
+            </a>
+        </div>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <table class="w-full text-left text-sm">
+                    <thead>
+                        <tr class="border-b text-gray-500">
+                            <th class="py-2 text-start">{{ __('Title') }}</th>
+                            <th class="py-2 text-start">{{ __('Created by') }}</th>
+                            <th class="py-2 text-start">{{ __('Company') }}</th>
+                            <th class="py-2 text-start">{{ __('Value') }}</th>
+                            <th class="py-2 text-start">{{ __('Status') }}</th>
+                            <th class="py-2 text-end">{{ __('Actions') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @forelse ($deals as $deal)
+                        <tr class="border-b">
+                            <td class="py-4">{{ $deal->title }}</td>
+                            <td class="py-4">{{ $deal->user->name }}</td>
+                            <td class="py-4">
+                                {{ $deal->company?->name }}
+                                @if ($deal->contact)
+                                    <br>
+                                    [ {{ __('Contact') }}: {{ $deal->contact->first_name }} {{ $deal->contact->last_name }} ]
+                                @endif
+                            </td>
+                            <td class="py-4">{{ $deal->value }} {{ $deal->currency->symbol() }}</td>
+                            <td class="py-4">{{ $deal->status->label() }}</td>
+                            <td class="py-4 text-end">
+                                <div class="flex gap-2 justify-end">
+                                    <a href="{{ route('deals.edit', $deal) }}" wire:navigate class="px-3 py-1 bg-gray-500 text-white rounded-md text-sm">
+                                        {{ __('Edit') }}
+                                    </a>
+                                    <button
+                                        wire:click="delete({{ $deal->id }})"
+                                        wire:confirm="Are you sure you want to delete this deal?"
+                                        class="px-3 py-1 bg-red-600 text-white rounded-md text-sm">
+                                        {{ __('Delete') }}
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="py-4 text-gray-400">{{ __('Deals table is empty.') }}</td>
+                        </tr>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
