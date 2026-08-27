@@ -48,7 +48,7 @@ new #[Layout('layouts.app')] class extends Component
                             <tr class="border-b">
                                 <td class="py-4">{{ $contact->first_name }} {{ $contact->last_name }}</td>
                                 <td class="py-4">{{ $contact->company?->name }}</td>
-                                <td class="py-4">{{ $contact->status }}</td>
+                                <td class="py-4">{{ $contact->status->label() }}</td>
                                 <td class="py-4">
                                     @if ($contact->email)
                                         <a href="mailto:{{ $contact->email }}" class="text-gray-800 underline">{{ $contact->email }}</a>

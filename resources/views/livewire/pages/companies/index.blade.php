@@ -46,7 +46,7 @@ new #[Layout('layouts.app')] class extends Component
                         @forelse ($companies as $company)
                             <tr class="border-b">
                                 <td class="py-4">{{ $company->name }}</td>
-                                <td class="py-4">{{ $company->status }}</td>
+                                <td class="py-4">{{ $company->status->label() }}</td>
                                 <td class="py-4">
                                     @if ($company->email)
                                         <a href="mailto:{{ $company->email }}" class="text-gray-800 underline">{{ $company->email }}</a>

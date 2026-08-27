@@ -4,6 +4,8 @@ use App\Models\Contact;
 use App\Models\Company;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
+use App\Enums\ContactStatus;
+use Illuminate\Validation\Rule;
 
 new #[Layout('layouts.app')] class extends Component
 {
@@ -16,12 +18,13 @@ new #[Layout('layouts.app')] class extends Component
     public string $email = '';
     public string $phone = '';
     public string $position = '';
-    public string $status = 'lead';
+    public string $status = '';
 
     public function with(): array
     {
         return [
             'companies' => Company::latest()->get(),
+            'statuses' => ContactStatus::cases(),
         ];
     }
 
@@ -37,7 +40,9 @@ new #[Layout('layouts.app')] class extends Component
             $this->email = $contact->email ?? '';
             $this->phone = $contact->phone ?? '';
             $this->position = $contact->position ?? '';
-            $this->status = $contact->status;
+            $this->status = $contact->status->value;
+        } else {
+            $this->status = ContactStatus::cases()[0]->value;
         }
     }
 
@@ -51,7 +56,7 @@ new #[Layout('layouts.app')] class extends Component
             'email' => ['nullable', 'email'],
             'phone' => ['nullable'],
             'position' => ['nullable'],
-            'status' => ['required', 'in:new,contacted,qualified,client'],
+            'status' => ['required', Rule::enum(ContactStatus::class)],
         ]);
 
         $validated['company_id'] = $validated['company_id'] ?: null;
@@ -134,10 +139,9 @@ new #[Layout('layouts.app')] class extends Component
                     <div class="mt-4">
                         <x-input-label for="status" :value="__('Status')" />
                         <select wire:model="status" id="status" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">
-                            <option value="new">Novi</option>
-                            <option value="contacted">Kontaktiran</option>
-                            <option value="qualified">Kvalificiran</option>
-                            <option value="client">Klijent</option>
+                            @foreach ($statuses as $case)
+                                <option value="{{ $case->value }}">{{ $case->label() }}</option>
+                            @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('status')" class="mt-2" />
                     </div>

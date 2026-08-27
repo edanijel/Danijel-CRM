@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\ContactStatus;
+
 
 class Contact extends Model
 {
@@ -18,5 +20,12 @@ class Contact extends Model
     public function deals()
     {
         return $this->hasMany(Deal::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'status' => ContactStatus::class,
+        ];
     }
 }
