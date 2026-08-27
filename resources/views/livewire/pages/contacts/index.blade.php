@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Company;
+use App\Models\Contact;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
 
@@ -9,13 +9,13 @@ new #[Layout('layouts.app')] class extends Component
     public function with(): array
     {
         return [
-            'companies' => Company::latest()->get(),
+            'contacts' => Contact::latest()->get(),
         ];
     }
 
-    public function delete(Company $company): void
+    public function delete(Contact $contact): void
     {
-        $company->delete();
+        $contact->delete();
     }
 };
 ?>
@@ -23,9 +23,9 @@ new #[Layout('layouts.app')] class extends Component
 <div>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Companies') }}</h2>
-            <a href="{{ route('companies.create') }}" wire:navigate class="px-4 py-2 bg-gray-800 text-white rounded-md text-sm">
-                {{ __('New Company') }}
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Contacts') }}</h2>
+            <a href="{{ route('contacts.create') }}" wire:navigate class="px-4 py-2 bg-gray-800 text-white rounded-md text-sm">
+                {{ __('New Contact') }}
             </a>
         </div>
     </x-slot>
@@ -36,30 +36,32 @@ new #[Layout('layouts.app')] class extends Component
                 <table class="w-full text-left text-sm">
                     <thead>
                         <tr class="border-b text-gray-500">
-                            <th class="py-2 text-start">{{ __('Company name') }}</th>
+                            <th class="py-2 text-start">{{ __('Name') }}</th>
+                            <th class="py-2 text-start">{{ __('Company') }}</th>
                             <th class="py-2 text-start">{{ __('Status') }}</th>
                             <th class="py-2 text-start">{{ __('Email') }}</th>
-                            <th class="py-2 flex justify-end">{{ __('Actions') }}</th>
+                            <th class="py-2 text-end">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($companies as $company)
+                        @forelse ($contacts as $contact)
                             <tr class="border-b">
-                                <td class="py-4">{{ $company->name }}</td>
-                                <td class="py-4">{{ $company->status }}</td>
+                                <td class="py-4">{{ $contact->first_name }} {{ $contact->last_name }}</td>
+                                <td class="py-4">{{ $contact->company?->name }}</td>
+                                <td class="py-4">{{ $contact->status }}</td>
                                 <td class="py-4">
-                                    @if ($company->email)
-                                        <a href="mailto:{{ $company->email }}" class="text-gray-800 underline">{{ $company->email }}</a>
+                                    @if ($contact->email)
+                                        <a href="mailto:{{ $contact->email }}" class="text-gray-800 underline">{{ $contact->email }}</a>
                                     @endif
                                 </td>
                                 <td class="py-4 text-end">
                                     <div class="flex gap-2 justify-end">
-                                        <a href="{{ route('companies.edit', $company) }}" wire:navigate class="px-3 py-1 bg-gray-500 text-white rounded-md text-sm">
+                                        <a href="{{ route('contacts.edit', $contact) }}" wire:navigate class="px-3 py-1 bg-gray-500 text-white rounded-md text-sm">
                                             {{ __('Edit') }}
                                         </a>
                                         <button
-                                            wire:click="delete({{ $company->id }})"
-                                            wire:confirm="Are you sure you want to delete this company?"
+                                            wire:click="delete({{ $contact->id }})"
+                                            wire:confirm="Are you sure you want to delete this contact?"
                                             class="px-3 py-1 bg-red-600 text-white rounded-md text-sm">
                                             {{ __('Delete') }}
                                         </button>
@@ -68,7 +70,7 @@ new #[Layout('layouts.app')] class extends Component
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="py-4 text-gray-400">{{ __('Company table is empty.') }}</td>
+                                <td colspan="5" class="py-4 text-gray-400">{{ __('Contacts table is empty.') }}</td>
                             </tr>
                         @endforelse
                     </tbody>

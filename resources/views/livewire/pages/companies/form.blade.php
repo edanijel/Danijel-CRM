@@ -22,7 +22,7 @@ new #[Layout('layouts.app')] class extends Component
     public function mount(?Company $company = null): void
     {
         $this->company = $company;
-        $this->title = $company ? 'Edit Company' : 'Add New Company';
+        $this->title = $company ? __('Edit Company') : __('Add New Company');
 
         if ($company) {
             $this->name = $company->name;
@@ -69,15 +69,15 @@ new #[Layout('layouts.app')] class extends Component
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $title }}</h2>
             <a href="{{ route('companies.index') }}" wire:navigate class="px-4 py-2 bg-gray-800 text-white rounded-md text-sm">
-                Back
+                {{ __('Back') }}
             </a>
         </div>
     </x-slot>
 
      <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6">
-                <form wire:submit="save">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <form wire:submit="save" class="max-w-xl">
                     <!-- Name -->
                     <div>
                         <x-input-label for="name" :value="__('Name')" />
@@ -147,8 +147,8 @@ new #[Layout('layouts.app')] class extends Component
                         <x-input-error :messages="$errors->get('status')" class="mt-2" />
                     </div>
 
-                    <div class="flex items-center justify-end mt-4">
-                        <x-primary-button class="ms-4">
+                    <div class="mt-6">
+                        <x-primary-button>
                             {{ __('Submit') }}
                         </x-primary-button>
                     </div>
