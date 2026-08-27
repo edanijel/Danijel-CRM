@@ -24,9 +24,15 @@ new #[Layout('layouts.app')] class extends Component
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Contacts') }}</h2>
-            <a href="{{ route('contacts.create') }}" wire:navigate class="px-4 py-2 bg-gray-800 text-white rounded-md text-sm">
-                {{ __('New Contact') }}
-            </a>
+            
+            <div class="flex gap-3">
+                <a href="{{ route('contacts.kanban') }}" wire:navigate class="px-4 py-2 bg-gray-800 text-white rounded-md text-sm">
+                    {{ __('Kanban Board') }}
+                </a>
+                <a href="{{ route('contacts.create') }}" wire:navigate class="px-4 py-2 bg-gray-800 text-white rounded-md text-sm">
+                    {{ __('New Contact') }}
+                </a>
+            </div>
         </div>
     </x-slot>
 
