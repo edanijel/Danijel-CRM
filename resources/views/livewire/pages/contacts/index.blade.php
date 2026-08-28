@@ -39,48 +39,50 @@ new #[Layout('layouts.app')] class extends Component
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <table class="w-full text-left text-sm">
-                    <thead>
-                        <tr class="border-b text-gray-500">
-                            <th class="py-2 text-start">{{ __('Name') }}</th>
-                            <th class="py-2 text-start">{{ __('Company') }}</th>
-                            <th class="py-2 text-start">{{ __('Status') }}</th>
-                            <th class="py-2 text-start">{{ __('Email') }}</th>
-                            <th class="py-2 text-end">{{ __('Actions') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($contacts as $contact)
-                            <tr class="border-b">
-                                <td class="py-4">{{ $contact->first_name }} {{ $contact->last_name }}</td>
-                                <td class="py-4">{{ $contact->company?->name }}</td>
-                                <td class="py-4">{{ $contact->status->label() }}</td>
-                                <td class="py-4">
-                                    @if ($contact->email)
-                                        <a href="mailto:{{ $contact->email }}" class="text-gray-800 underline">{{ $contact->email }}</a>
-                                    @endif
-                                </td>
-                                <td class="py-4 text-end">
-                                    <div class="flex gap-2 justify-end">
-                                        <a href="{{ route('contacts.edit', $contact) }}" wire:navigate class="px-3 py-1 bg-gray-500 text-white rounded-md text-sm">
-                                            {{ __('Edit') }}
-                                        </a>
-                                        <button
-                                            wire:click="delete({{ $contact->id }})"
-                                            wire:confirm="Are you sure you want to delete this contact?"
-                                            class="px-3 py-1 bg-red-600 text-white rounded-md text-sm">
-                                            {{ __('Delete') }}
-                                        </button>
-                                    </div>
-                                </td>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b text-gray-500">
+                                <th class="py-2 text-start">{{ __('Name') }}</th>
+                                <th class="py-2 text-start">{{ __('Company') }}</th>
+                                <th class="py-2 text-start">{{ __('Status') }}</th>
+                                <th class="py-2 text-start">{{ __('Email') }}</th>
+                                <th class="py-2 text-end">{{ __('Actions') }}</th>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="py-4 text-gray-400">{{ __('Contacts table is empty.') }}</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @forelse ($contacts as $contact)
+                                <tr class="border-b">
+                                    <td class="py-4">{{ $contact->first_name }} {{ $contact->last_name }}</td>
+                                    <td class="py-4">{{ $contact->company?->name }}</td>
+                                    <td class="py-4">{{ $contact->status->label() }}</td>
+                                    <td class="py-4">
+                                        @if ($contact->email)
+                                            <a href="mailto:{{ $contact->email }}" class="text-gray-800 underline">{{ $contact->email }}</a>
+                                        @endif
+                                    </td>
+                                    <td class="py-4 text-end">
+                                        <div class="flex gap-2 justify-end">
+                                            <a href="{{ route('contacts.edit', $contact) }}" wire:navigate class="px-3 py-1 bg-gray-500 text-white rounded-md text-sm">
+                                                {{ __('Edit') }}
+                                            </a>
+                                            <button
+                                                wire:click="delete({{ $contact->id }})"
+                                                wire:confirm="Are you sure you want to delete this contact?"
+                                                class="px-3 py-1 bg-red-600 text-white rounded-md text-sm">
+                                                {{ __('Delete') }}
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="py-4 text-gray-400">{{ __('Contacts table is empty.') }}</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

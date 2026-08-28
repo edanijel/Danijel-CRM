@@ -33,16 +33,16 @@ new class extends Component
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('companies.index')" :active="request()->routeIs('companies.index')" wire:navigate>
+                    <x-nav-link :href="route('companies.index')" :active="request()->routeIs('companies.*')" wire:navigate>
                         {{ __('Companies') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('contacts.index')" :active="request()->routeIs('contacts.index')" wire:navigate>
+                    <x-nav-link :href="route('contacts.index')" :active="request()->routeIs('contacts.*')" wire:navigate>
                         {{ __('Contacts') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('deals.index')" :active="request()->routeIs('deals.index')" wire:navigate>
+                    <x-nav-link :href="route('deals.index')" :active="request()->routeIs('deals.*')" wire:navigate>
                         {{ __('Deals') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('offers.index')" :active="request()->routeIs('offers.index')" wire:navigate>
+                    <x-nav-link :href="route('offers.index')" :active="request()->routeIs('offers.*')" wire:navigate>
                         {{ __('Offers') }}
                     </x-nav-link>
                 </div>
@@ -95,6 +95,18 @@ new class extends Component
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('companies.index')" :active="request()->routeIs('companies.index')" wire:navigate>
+                {{ __('Companies') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('contacts.index')" :active="request()->routeIs('contacts.index')" wire:navigate>
+                {{ __('Contacts') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('deals.index')" :active="request()->routeIs('deals.index')" wire:navigate>
+                {{ __('Deals') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('offers.index')" :active="request()->routeIs('offers.index')" wire:navigate>
+                {{ __('Offers') }}
             </x-responsive-nav-link>
         </div>
 
