@@ -8,7 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 Route::view('/', 'welcome');
 
 Volt::route('dashboard', 'pages.dashboard')
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth'])
     ->name('dashboard');
 
 Route::view('profile', 'profile')
