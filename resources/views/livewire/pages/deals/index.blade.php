@@ -9,7 +9,7 @@ new #[Layout('layouts.app')] class extends Component
     public function with(): array
     {
         return [
-            'deals' => Deal::latest()->get(),
+            'deals' => Deal::with('offers', 'company', 'contact', 'user')->latest()->get(),
         ];
     }
 
@@ -43,18 +43,20 @@ new #[Layout('layouts.app')] class extends Component
                     <thead>
                         <tr class="border-b text-gray-500">
                             <th class="py-2 text-start">{{ __('Title') }}</th>
-                            <th class="py-2 text-start">{{ __('Created by') }}</th>
                             <th class="py-2 text-start">{{ __('Company') }}</th>
                             <th class="py-2 text-start">{{ __('Value') }}</th>
                             <th class="py-2 text-start">{{ __('Status') }}</th>
+                            <th class="py-2 text-start">{{ __('Offers') }}</th>
                             <th class="py-2 text-end">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                     @forelse ($deals as $deal)
                         <tr class="border-b">
-                            <td class="py-4">{{ $deal->title }}</td>
-                            <td class="py-4">{{ $deal->user->name }}</td>
+                            <td class="py-4">
+                                {{ $deal->title }}<br />
+                                [ {{ __('Created by') }}: {{ $deal->user->name }} ]
+                            </td>
                             <td class="py-4">
                                 {{ $deal->company?->name }}
                                 @if ($deal->contact)
@@ -62,8 +64,17 @@ new #[Layout('layouts.app')] class extends Component
                                     [ {{ __('Contact') }}: {{ $deal->contact->first_name }} {{ $deal->contact->last_name }} ]
                                 @endif
                             </td>
-                            <td class="py-4">{{ $deal->value }} {{ $deal->currency->symbol() }}</td>
+                            <td class="py-4">{{ number_format($deal->value, 2, ',', '.') }} {{ $deal->currency->symbol() }}</td>
                             <td class="py-4">{{ $deal->status->label() }}</td>
+                            <td class="py-4">
+                                @forelse ($deal->offers as $offer)
+                                    <a href="{{ route('offers.edit', $offer) }}" wire:navigate class="block text-indigo-600 hover:underline text-xs">
+                                        {{ $offer->offer_number }}
+                                    </a>
+                                @empty
+                                    <span class="text-gray-400 text-xs">-</span>
+                                @endforelse                      
+                            </td>
                             <td class="py-4 text-end">
                                 <div class="flex gap-2 justify-end">
                                     <a href="{{ route('deals.edit', $deal) }}" wire:navigate class="px-3 py-1 bg-gray-500 text-white rounded-md text-sm">
@@ -80,7 +91,7 @@ new #[Layout('layouts.app')] class extends Component
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="py-4 text-gray-400">{{ __('Deals table is empty.') }}</td>
+                            <td colspan="6" class="py-4 text-gray-400">{{ __('Deals table is empty.') }}</td>
                         </tr>
                     @endforelse
                     </tbody>

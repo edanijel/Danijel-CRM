@@ -159,7 +159,7 @@ new #[Layout('layouts.app')] class extends Component
 
                     <div class="mt-6">
                         <x-primary-button>
-                            {{ __('Submit') }}
+                            {{ __('Save changes') }}
                         </x-primary-button>
                     </div>
                 </form>

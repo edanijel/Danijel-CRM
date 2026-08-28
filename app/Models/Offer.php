@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\Currency;
+use App\Enums\OfferStatus;
 
 class Offer extends Model
 {
     protected $fillable = [
-        'user_id', 'deal_id', 'company_id', 'contact_id', 'offer_number', 'title', 'offer_issued', 'offer_valid', 'subtotal', 'tax_rate', 'tax_amount', 'total', 'status',
+        'user_id', 'deal_id', 'company_id', 'contact_id', 'offer_number', 'title', 'offer_issued', 'offer_valid', 'currency', 'subtotal', 'tax_rate', 'tax_amount', 'total', 'status',
     ];
 
     public function user()
@@ -45,5 +47,15 @@ class Offer extends Model
             'tax_amount' => $taxAmount,
             'total' => $subtotal + $taxAmount,
         ]);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'status' => OfferStatus::class,
+            'currency' => Currency::class,
+            'offer_issued' => 'date',
+            'offer_valid' => 'date',
+        ];
     }
 }

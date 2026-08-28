@@ -27,6 +27,11 @@ class Deal extends Model
         return $this->belongsTo(Contact::class);
     }
 
+    public function offers()
+    {
+        return $this->hasMany(Offer::class);
+    }
+
     protected function casts(): array
     {
         return [

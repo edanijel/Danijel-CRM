@@ -61,6 +61,20 @@ Volt::route('deals/kanban', 'pages.deals.kanban')
     ->middleware(['auth'])
     ->name('deals.kanban');
 
+Volt::route('offers', 'pages.offers.index')
+    ->middleware(['auth'])
+    ->name('offers.index');
 
+Volt::route('offers/create', 'pages.offers.form')
+    ->middleware(['auth'])
+    ->name('offers.create');
+
+Volt::route('offers/{offer}/edit', 'pages.offers.form')
+    ->middleware(['auth'])
+    ->name('offers.edit');
+
+Volt::route('offers/kanban', 'pages.offers.kanban')
+    ->middleware(['auth'])
+    ->name('offers.kanban');
 
 require __DIR__.'/auth.php';
