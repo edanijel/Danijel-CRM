@@ -61,7 +61,7 @@ new #[Layout('layouts.app')] class extends Component
     public function save(): void
     {
         $validated = $this->validate([
-            'company_id' => ['nullable', 'exists:companies,id'],
+            'company_id' => ['required', 'exists:companies,id'],
             'contact_id' => ['nullable', 'exists:contacts,id'],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable'],
@@ -118,7 +118,7 @@ new #[Layout('layouts.app')] class extends Component
                     <!-- First Name -->
                     <div>
                         <x-input-label for="title" :value="__('Title')" />
-                        <x-text-input wire:model="title" id="title" class="block mt-1 w-full" type="text" name="title" required autofocus />
+                        <x-text-input wire:model="title" id="title" class="block mt-1 w-full" type="text" name="title" autofocus />
                         <x-input-error :messages="$errors->get('title')" class="mt-2" />
                     </div>
 
@@ -138,7 +138,7 @@ new #[Layout('layouts.app')] class extends Component
                             <option value="{{ $company->id }}">{{ $company->name }}</option>
                             @endforeach
                         </select>
-                        <x-input-error :messages="$errors->get('company')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('company_id')" class="mt-2" />
                     </div>
 
                     <!-- Contact -->
@@ -196,6 +196,16 @@ new #[Layout('layouts.app')] class extends Component
                         </select>
                         <x-input-error :messages="$errors->get('status')" class="mt-2" />
                     </div>
+
+                    @if ($errors->any())
+                        <div class="mt-4 mb-4 p-4 bg-red-100 text-red-700 rounded">
+                            <ul class="list-disc pl-5 max-w-7xl mx-auto">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif 
 
                     <div class="mt-6">
                         <x-primary-button class="text-xl">

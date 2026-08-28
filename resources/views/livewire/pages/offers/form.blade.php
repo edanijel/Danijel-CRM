@@ -96,11 +96,11 @@ new #[Layout('layouts.app')] class extends Component
     public function save(): void
     {
         $validated = $this->validate([
+            'title' => ['required', 'string', 'max:255'],
             'offer_number' => ['required', 'string', 'max:255', Rule::unique('offers', 'offer_number')->ignore($this->offer)],
             'deal_id' => ['nullable', 'exists:deals,id'],
-            'company_id' => ['nullable', 'exists:companies,id'],
+            'company_id' => ['required', 'exists:companies,id'],
             'contact_id' => ['nullable', 'exists:contacts,id'],
-            'title' => ['required', 'string', 'max:255'],
             'offer_issued' => ['nullable', 'date'],
             'offer_valid' => ['nullable', 'date'],
             'tax_rate' => ['required', 'numeric', 'min:0'],
@@ -203,7 +203,7 @@ new #[Layout('layouts.app')] class extends Component
                     <!-- Title -->
                     <div class="mt-4">
                         <x-input-label for="title" :value="__('Title')" />
-                        <x-text-input wire:model="title" id="title" class="block mt-1 w-full" type="text" name="title" required autofocus />
+                        <x-text-input wire:model="title" id="title" class="block mt-1 w-full" type="text" name="title" autofocus />
                         <x-input-error :messages="$errors->get('title')" class="mt-2" />
                     </div>
 
@@ -230,7 +230,7 @@ new #[Layout('layouts.app')] class extends Component
                             <option value="{{ $deal->id }}">{{ $deal->title }}</option>
                             @endforeach
                         </select>
-                        <x-input-error :messages="$errors->get('deal')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('deal_id')" class="mt-2" />
                     </div>
 
                     <!-- Company -->
@@ -242,7 +242,7 @@ new #[Layout('layouts.app')] class extends Component
                             <option value="{{ $company->id }}">{{ $company->name }}</option>
                             @endforeach
                         </select>
-                        <x-input-error :messages="$errors->get('company')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('company_id')" class="mt-2" />
                     </div>
 
                     <!-- Contact -->
@@ -322,7 +322,7 @@ new #[Layout('layouts.app')] class extends Component
                             </ul>
                         </div>
                     @endif
-                    
+
                     <div class="mt-6">
                         <x-primary-button class="text-xl">
                             {{ __('Save changes') }}

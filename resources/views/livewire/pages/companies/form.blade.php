@@ -92,7 +92,7 @@ new #[Layout('layouts.app')] class extends Component
                     <!-- Name -->
                     <div>
                         <x-input-label for="name" :value="__('Name')" />
-                        <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required autofocus />
+                        <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" autofocus />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
 
@@ -156,6 +156,16 @@ new #[Layout('layouts.app')] class extends Component
                         </select>
                         <x-input-error :messages="$errors->get('status')" class="mt-2" />
                     </div>
+
+                    @if ($errors->any())
+                        <div class="mt-4 mb-4 p-4 bg-red-100 text-red-700 rounded">
+                            <ul class="list-disc pl-5 max-w-7xl mx-auto">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <div class="mt-6">
                         <x-primary-button>

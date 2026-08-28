@@ -90,14 +90,14 @@ new #[Layout('layouts.app')] class extends Component
                     <!-- First Name -->
                     <div>
                         <x-input-label for="first_name" :value="__('First Name')" />
-                        <x-text-input wire:model="first_name" id="first_name" class="block mt-1 w-full" type="text" name="first_name" required autofocus />
+                        <x-text-input wire:model="first_name" id="first_name" class="block mt-1 w-full" type="text" name="first_name" autofocus />
                         <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
                     </div>
 
                     <!-- Last Name -->
                     <div class="mt-4">
                         <x-input-label for="last_name" :value="__('Last Name')" />
-                        <x-text-input wire:model="last_name" id="last_name" class="block mt-1 w-full" type="text" name="last_name" required autofocus />
+                        <x-text-input wire:model="last_name" id="last_name" class="block mt-1 w-full" type="text" name="last_name" autofocus />
                         <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
                     </div>
 
@@ -145,6 +145,16 @@ new #[Layout('layouts.app')] class extends Component
                         </select>
                         <x-input-error :messages="$errors->get('status')" class="mt-2" />
                     </div>
+
+                    @if ($errors->any())
+                        <div class="mt-4 mb-4 p-4 bg-red-100 text-red-700 rounded">
+                            <ul class="list-disc pl-5 max-w-7xl mx-auto">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <div class="mt-6">
                         <x-primary-button>
