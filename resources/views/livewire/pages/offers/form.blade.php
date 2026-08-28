@@ -80,6 +80,7 @@ new #[Layout('layouts.app')] class extends Component
             ])->toArray();
         } else {
             $this->offer_number = 'INV-' . now()->year . '-' . str_pad(Offer::count() + 1, 3, '0', STR_PAD_LEFT);
+            $this->offer_issued = now()->format('Y-m-d');
             $this->currency = Currency::cases()[0]->value;
             $this->status = OfferStatus::cases()[0]->value;
 
