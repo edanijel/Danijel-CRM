@@ -34,6 +34,7 @@ new #[Layout('layouts.app')] class extends Component
 
     public function with(): array
     {
+        $taxRate = (float) ($this->tax_rate ?: 0);
         $itemsTotal = collect($this->items)->sum(
             fn ($item) => ($item['quantity'] ?? 0) * ($item['unit_price'] ?? 0)
         );
@@ -47,7 +48,7 @@ new #[Layout('layouts.app')] class extends Component
             'currencies' => Currency::cases(),
             'statuses' => OfferStatus::cases(),
             'itemsSubtotal' => $itemsTotal,
-            'itemsTotalWithTax' => $itemsTotal + ($itemsTotal * ($this->tax_rate / 100)),
+            'itemsTotalWithTax' => $itemsTotal + ($itemsTotal * ($taxRate / 100)),
         ];
     }
 
@@ -83,6 +84,11 @@ new #[Layout('layouts.app')] class extends Component
             $this->status = OfferStatus::cases()[0]->value;
 
             $this->items = [];
+
+            if (request()->filled('deal_id')) {
+                $this->deal_id = request()->query('deal_id');
+                $this->updatedDealId($this->deal_id);
+            }
         }
     } 
 

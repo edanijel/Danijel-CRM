@@ -50,11 +50,12 @@ new #[Layout('layouts.app')] class extends Component
                         <div
                             wire:ignore
                             class="space-y-2 min-h-[100px] border border-dashed border-gray-200 rounded"
-                            data-status="{{ $status->value }}"
+                            data-status="{{ $status->value }}" 
                             x-init="
                                 Sortable.create($el, {
                                     group: 'deals',
                                     animation: 150,
+                                    filter: '.no-drag',
                                     onAdd: (evt) => {
                                         $wire.moveDeal(evt.item.dataset.id, evt.to.dataset.status);
                                     },
@@ -62,8 +63,16 @@ new #[Layout('layouts.app')] class extends Component
                             "
                         >
                             @foreach ($grouped[$status->value] as $deal)
-                                <div data-id="{{ $deal->id }}" class="bg-gray-800 text-white px-4 py-2 rounded shadow cursor-move">
-                                    {{ $deal->title }}
+                                <div data-id="{{ $deal->id }}" class="bg-gray-800 text-white px-4 py-3 rounded shadow cursor-move">
+                                    <div class="mb-1">{{ $deal->title }}</div>
+
+                                    <a href="{{ route('offers.create', ['deal_id' => $deal->id]) }}"
+                                        wire:navigate
+                                        class="no-drag shrink-0 bg-indigo-500 hover:bg-indigo-600 text-white text-xs px-2 py-1 rounded"
+                                        title="{{ __('Create Offer for this deal') }}" 
+                                    >
+                                        + {{ __('Create Offer') }}
+                                    </a>
                                 </div>
                             @endforeach
                         </div>

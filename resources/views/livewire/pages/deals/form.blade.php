@@ -97,9 +97,17 @@ new #[Layout('layouts.app')] class extends Component
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $pageTitle }}</h2>
-            <a href="{{ route('deals.index') }}" wire:navigate class="px-4 py-2 bg-gray-800 text-white rounded-md text-sm">
-                {{ __('Back') }}
-            </a>
+
+            <div class="flex gap-3">
+                @if ($deal)
+                    <a href="{{ route('offers.create', ['deal_id' => $deal->id]) }}" wire:navigate class="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm">
+                        {{ __('Create Offer') }}
+                    </a>
+                @endif
+                <a href="{{ route('deals.index') }}" wire:navigate class="px-4 py-2 bg-gray-800 text-white rounded-md text-sm">
+                    {{ __('Back') }}
+                </a>
+            </div>
         </div>
     </x-slot>
 
@@ -191,7 +199,7 @@ new #[Layout('layouts.app')] class extends Component
 
                     <div class="mt-6">
                         <x-primary-button class="text-xl">
-                            {{ __('Submit') }}
+                            {{ __('Save changes') }}
                         </x-primary-button>
                     </div>
                 </form>
