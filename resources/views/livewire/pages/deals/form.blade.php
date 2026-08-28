@@ -74,6 +74,7 @@ new #[Layout('layouts.app')] class extends Component
 
         $validated['company_id'] = $validated['company_id'] ?: null;
         $validated['contact_id'] = $validated['contact_id'] ?: null;
+        $validated['expected_close_date'] = $validated['expected_close_date'] ?: null;
 
         if ($this->deal) {
             $this->deal->update($validated);

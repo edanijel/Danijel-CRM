@@ -115,6 +115,7 @@ new #[Layout('layouts.app')] class extends Component
         $validated['company_id'] = $validated['company_id'] ?: null;
         $validated['contact_id'] = $validated['contact_id'] ?: null;
         $validated['deal_id'] = $validated['deal_id'] ?: null;
+        $validated['offer_valid'] = $validated['offer_valid'] ?: null;
         $validated['subtotal'] = 0;
         $validated['tax_amount'] = 0;
         $validated['total'] = 0;
