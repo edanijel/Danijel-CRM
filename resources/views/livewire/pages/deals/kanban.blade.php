@@ -48,7 +48,7 @@ new #[Layout('layouts.app')] class extends Component
                         <h3 class="font-semibold text-sm text-gray-600 mb-4">{{ $status->label() }}</h3>
 
                         <div
-                            wire:ignore
+                            wire:ignore.self
                             class="space-y-2 min-h-[100px] border border-dashed border-gray-200 rounded"
                             data-status="{{ $status->value }}" 
                             x-init="
@@ -65,7 +65,7 @@ new #[Layout('layouts.app')] class extends Component
                             @foreach ($grouped[$status->value] as $deal)
                                 <div data-id="{{ $deal->id }}" class="bg-gray-800 text-white px-4 py-3 rounded shadow cursor-move">
                                     <div class="mb-1">{{ $deal->title }}</div>
-
+                                    @if (!in_array($deal->status, [\App\Enums\DealStatus::Won, \App\Enums\DealStatus::Lost]))
                                     <a href="{{ route('offers.create', ['deal_id' => $deal->id]) }}"
                                         wire:navigate
                                         class="no-drag shrink-0 bg-indigo-500 hover:bg-indigo-600 text-white text-xs px-2 py-1 rounded"
@@ -73,6 +73,7 @@ new #[Layout('layouts.app')] class extends Component
                                     >
                                         + {{ __('Create Offer') }}
                                     </a>
+                                    @endif
                                 </div>
                             @endforeach
                         </div>
