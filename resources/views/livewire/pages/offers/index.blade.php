@@ -58,7 +58,7 @@ new #[Layout('layouts.app')] class extends Component
                                 <td class="py-4">{{ $offer->offer_number }}</td>
                                 <td class="py-4">{{ $offer->title }}</td>
                                 <td class="py-4">{{ $offer->offer_issued->format('d.m.Y.') }}</td>
-                                <td class="py-4">{{ $offer->offer_valid->format('d.m.Y.') ?? '—' }}</td>
+                                <td class="py-4">{{ $offer->offer_valid?->format('d.m.Y.') ?? '—' }}</td>
                                 <td class="py-4">{{ $offer->status->label() }}</td>
                                 <td class="py-4">{{ number_format($offer->total, 2, ',', '.') }} {{ $offer->currency->symbol() }}</td>
                                 <td class="py-4 text-end">

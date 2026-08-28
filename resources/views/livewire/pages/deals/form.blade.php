@@ -100,7 +100,7 @@ new #[Layout('layouts.app')] class extends Component
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $pageTitle }}</h2>
 
             <div class="flex gap-3">
-                @if ($deal)
+                @if ($deal && (!in_array($deal->status, [\App\Enums\DealStatus::Won, \App\Enums\DealStatus::Lost])))
                     <a href="{{ route('offers.create', ['deal_id' => $deal->id]) }}" wire:navigate class="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm">
                         {{ __('Create Offer') }}
                     </a>
