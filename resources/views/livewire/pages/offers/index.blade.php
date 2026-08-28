@@ -66,6 +66,9 @@ new #[Layout('layouts.app')] class extends Component
                                         <a href="{{ route('offers.edit', $offer) }}" wire:navigate class="px-3 py-1 bg-gray-500 text-white rounded-md text-sm">
                                             {{ __('Edit') }}
                                         </a>
+                                        <a href="{{ route('offers.pdf', $offer) }}" class="px-3 py-1 bg-indigo-600 text-white rounded-md text-xs">
+                                            {{ __('PDF') }} 
+                                        </a>
                                         <button
                                             wire:click="delete({{ $offer->id }})"
                                             wire:confirm="Are you sure you want to delete this offer?"

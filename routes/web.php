@@ -2,6 +2,8 @@
 
 use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Route;
+use App\Models\Offer;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 Route::view('/', 'welcome');
 
@@ -12,6 +14,8 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+// Companies
 
 Volt::route('companies', 'pages.companies.index')
     ->middleware(['auth'])
@@ -29,6 +33,9 @@ Volt::route('companies/kanban', 'pages.companies.kanban')
     ->middleware(['auth'])
     ->name('companies.kanban');
 
+
+// Contacts
+
 Volt::route('contacts', 'pages.contacts.index')
     ->middleware(['auth'])
     ->name('contacts.index');
@@ -44,6 +51,9 @@ Volt::route('contacts/{contact}/edit', 'pages.contacts.form')
 Volt::route('contacts/kanban', 'pages.contacts.kanban')
     ->middleware(['auth'])
     ->name('contacts.kanban');
+
+
+// Deals
 
 Volt::route('deals', 'pages.deals.index')
     ->middleware(['auth'])
@@ -61,6 +71,9 @@ Volt::route('deals/kanban', 'pages.deals.kanban')
     ->middleware(['auth'])
     ->name('deals.kanban');
 
+
+// Offers
+
 Volt::route('offers', 'pages.offers.index')
     ->middleware(['auth'])
     ->name('offers.index');
@@ -76,5 +89,13 @@ Volt::route('offers/{offer}/edit', 'pages.offers.form')
 Volt::route('offers/kanban', 'pages.offers.kanban')
     ->middleware(['auth'])
     ->name('offers.kanban');
+
+Route::get('offers/{offer}/pdf', function (Offer $offer) {
+    $offer->load(['offerItems', 'company', 'contact']);
+
+    return Pdf::loadView('pdf.offer', ['offer' => $offer])
+        ->setPaper('a4', 'portrait')
+        ->download("offer-{$offer->offer_number}.pdf");
+})->middleware(['auth'])->name('offers.pdf');
 
 require __DIR__.'/auth.php';

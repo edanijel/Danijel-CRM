@@ -175,20 +175,20 @@ new #[Layout('layouts.app')] class extends Component
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $pageTitle }}</h2>
-            <a href="{{ route('offers.index') }}" wire:navigate class="px-4 py-2 bg-gray-800 text-white rounded-md text-sm">
-                {{ __('Back') }}
-            </a>
+
+            <div class="flex gap-3">
+                @if ($offer)
+                    <a href="{{ route('offers.pdf', $offer) }}" class="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm">
+                        {{ __('Create PDF') }}
+                    </a>
+                @endif
+                <a href="{{ route('offers.index') }}" wire:navigate class="px-4 py-2 bg-gray-800 text-white rounded-md text-sm">
+                    {{ __('Back') }}
+                </a>
+            </div>
         </div>
     </x-slot>
-@if ($errors->any())
-    <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
-        <ul class="list-disc pl-5 max-w-7xl mx-auto">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+
      <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
@@ -313,6 +313,16 @@ new #[Layout('layouts.app')] class extends Component
                         <x-input-error :messages="$errors->get('status')" class="mt-2" />
                     </div>
 
+                    @if ($errors->any())
+                        <div class="mt-4 mb-4 p-4 bg-red-100 text-red-700 rounded">
+                            <ul class="list-disc pl-5 max-w-7xl mx-auto">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    
                     <div class="mt-6">
                         <x-primary-button class="text-xl">
                             {{ __('Save changes') }}
