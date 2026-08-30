@@ -125,9 +125,11 @@ new #[Layout('layouts.app')] class extends Component
         if ($this->offer) {
             $this->offer->update($validated);
             $this->offer->offerItems()->delete();
+            session()->flash('success', __('Offer ":name" successfully updated.', ['name' => $this->offer->title]));
         } else {
             $validated['user_id'] = auth()->id();
             $this->offer = Offer::create($validated);
+            session()->flash('success', __('Offer ":name" successfully created.', ['name' => $this->offer->title]));
         }
 
         foreach ($this->items as $item) {

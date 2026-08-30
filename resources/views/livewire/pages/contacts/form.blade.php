@@ -63,8 +63,10 @@ new #[Layout('layouts.app')] class extends Component
 
         if ($this->contact) {
             $this->contact->update($validated);
+            session()->flash('success', __('Contact ":name" successfully updated.', ['name' => $this->contact->first_name .' '. $this->contact->last_name]));
         } else {
-            Contact::create($validated);
+            $contact = Contact::create($validated);
+            session()->flash('success', __('Contact ":name" successfully created.', ['name' => $contact->first_name .' '. $contact->last_name]));
         }
 
         $this->redirect(route('contacts.index'), navigate: true);

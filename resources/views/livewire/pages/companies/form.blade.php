@@ -44,7 +44,7 @@ new #[Layout('layouts.app')] class extends Component
             $this->postal_code = $company->postal_code ?? '';
             $this->status = $company->status->value;
         } else {
-            $this->status = CompanyStatus::cases()[0]->value;
+            $this->status = CompanyStatus::cases()[0]->value; 
         }
     }
 
@@ -65,8 +65,10 @@ new #[Layout('layouts.app')] class extends Component
 
         if ($this->company) {
             $this->company->update($validated);
+            session()->flash('success', __('Company ":name" successfully updated.', ['name' => $this->company->name]));
         } else {
-            Company::create($validated);
+            $company = Company::create($validated);
+            session()->flash('success', __('Company ":name" successfully created.', ['name' => $company->name]));
         }
 
         $this->redirect(route('companies.index'), navigate: true);

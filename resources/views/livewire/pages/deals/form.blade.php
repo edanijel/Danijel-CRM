@@ -79,9 +79,11 @@ new #[Layout('layouts.app')] class extends Component
 
         if ($this->deal) {
             $this->deal->update($validated);
+            session()->flash('success', __('Deal ":name" successfully updated.', ['name' => $this->deal->title]));
         } else {
             $validated['user_id'] = auth()->id();
-            Deal::create($validated);
+            $deal = Deal::create($validated);
+            session()->flash('success', __('Deal ":name" successfully created.', ['name' => $deal->title]));
         }
 
         $this->redirect(route('deals.index'), navigate: true);

@@ -6,6 +6,8 @@ use Livewire\Attributes\Layout;
 
 new #[Layout('layouts.app')] class extends Component
 {
+    public ?string $flashMessage = null;
+
     public function with(): array
     {
         return [
@@ -15,7 +17,10 @@ new #[Layout('layouts.app')] class extends Component
 
     public function delete(Deal $deal): void
     {
+        $name = $deal->title;
         $deal->delete();
+
+        $this->flashMessage = __('Deal ":name" successfully deleted.', ['name' => $name]);
     }
 };
 ?>
@@ -35,6 +40,8 @@ new #[Layout('layouts.app')] class extends Component
             </div>
         </div>
     </x-slot>
+
+    <x-inline-flash-message :message="$flashMessage" />
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
